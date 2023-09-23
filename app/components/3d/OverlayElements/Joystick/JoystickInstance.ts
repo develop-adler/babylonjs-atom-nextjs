@@ -7,7 +7,7 @@ import nipplejs, {
 export default class JoystickInstance {
     private static instance: JoystickInstance;
 
-    private _manager: JoystickManager;
+    private _manager!: JoystickManager;
     private _event: EventData | null;
     private _data: JoystickOutputData | null;
     private _joystickContainer: HTMLElement;
@@ -19,24 +19,24 @@ export default class JoystickInstance {
         this._event = null;
         this._data = null;
 
-        this._manager = nipplejs.create({
-            zone: joystickContainer,
-            // size: 100 * (window.innerHeight / 720),
-            mode: "static",
-            position: { top: "50%", left: "50%" },
-        });
+        // this._manager = nipplejs.create({
+        //     zone: joystickContainer,
+        //     // size: 100 * (window.innerHeight / 720),
+        //     mode: "static",
+        //     position: { top: "50%", left: "50%" },
+        // });
 
-        const handleJoystickMove = (
-            e: EventData,
-            data: JoystickOutputData
-        ): void => {
-            this._event = e;
-            this._data = data;
-        };
+        // const handleJoystickMove = (
+        //     e: EventData,
+        //     data: JoystickOutputData
+        // ): void => {
+        //     this._event = e;
+        //     this._data = data;
+        // };
 
-        this._manager.on("start", handleJoystickMove);
-        this._manager.on("move", handleJoystickMove);
-        this._manager.on("end", handleJoystickMove);
+        // this._manager.on("start", handleJoystickMove);
+        // this._manager.on("move", handleJoystickMove);
+        // this._manager.on("end", handleJoystickMove);
     }
 
     public static getInstance(): JoystickInstance {

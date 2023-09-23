@@ -277,7 +277,8 @@ const OverlayElements = (): React.JSX.Element => {
 
     const partStyleImageOnClick = (partStyleIndex: string) => {
         if (currentCategory === "gender") {
-            if (partStyleIndex !== localStorage.getItem("avatarGender")) {
+            if (typeof window === 'undefined') return;
+            if (partStyleIndex !== window.localStorage.getItem("avatarGender")) {
                 coreScene.avatar.changeGender(partStyleIndex as Gender);
             }
         } else {
@@ -329,7 +330,8 @@ const OverlayElements = (): React.JSX.Element => {
 
     const highlightSelectedPartStyleImage = (partStyleIndex: string): boolean => {
         if (currentCategory === "gender") {
-            if (partStyleIndex === localStorage.getItem("avatarGender")) {
+            if (typeof window === 'undefined') return false;
+            if (partStyleIndex === window.localStorage.getItem("avatarGender")) {
                 return true;
             }
         } else {

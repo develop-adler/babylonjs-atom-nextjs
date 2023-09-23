@@ -45,13 +45,17 @@ class Avatar {
         this._root.scaling.scaleInPlace(0.01);
         this._meshes = [];
 
-        const storedGender = localStorage.getItem("avatarGender");
+        let storedGender: string | null = "female";
+        if (typeof window !== 'undefined') {
+            storedGender = window.localStorage.getItem("avatarGender");
+        }
+
         this._gender =
             storedGender === "male" || storedGender === "female"
                 ? (storedGender as Gender)
                 : "female";
 
-        this._parts = JSON.parse(localStorage.getItem("avatarParts") ?? "{}");
+        this._parts = JSON.parse(window.localStorage.getItem("avatarParts") ?? "{}");
         this._generateCollision();
     }
 
@@ -128,7 +132,9 @@ class Avatar {
             this._root.position.y -= Avatar.CAPSULE_HEIGHT * 0.5;
         });
 
-        localStorage.setItem("avatarGender", this._gender);
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem("avatarGender", this._gender);
+        }
 
         // dispose default model
         this._clearMeshes();
@@ -146,7 +152,9 @@ class Avatar {
 
     public changeGender(gender: Gender): void {
         this._gender = gender;
-        localStorage.setItem("avatarGender", this._gender);
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem("avatarGender", this._gender);
+        }
 
         this._clearMeshes();
         this.init();
@@ -222,9 +230,12 @@ class Avatar {
                     });
                 }
 
-                // update localstorage
+                // update window.localstorage
                 this._parts[loadingStyleName as keyof GenderParts] = [partStyleName];
-                localStorage.setItem("avatarParts", JSON.stringify(this._parts));
+
+                if (typeof window !== 'undefined') {
+                    window.localStorage.setItem("avatarParts", JSON.stringify(this._parts));
+                }
 
                 // add new part
                 meshes.forEach((mesh, index) => {
@@ -259,7 +270,7 @@ class Avatar {
         let parts: GenderParts;
 
         // get user settings from local storage
-        const storedParts = localStorage.getItem("avatarParts");
+        const storedParts = window.localStorage.getItem("avatarParts");
 
         // if user has no settings, use default parts
         if (this._gender === "male") {
@@ -281,7 +292,9 @@ class Avatar {
                 this._gender === "male" ? DEFAULT_MALE_PARTS : DEFAULT_FEMALE_PARTS;
         }
 
-        localStorage.setItem("avatarParts", JSON.stringify(parts));
+        if (typeof window !== 'undefined') {
+            window.localStorage.setItem("avatarParts", JSON.stringify(parts));
+        }
 
         return parts;
     }
