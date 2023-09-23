@@ -5,19 +5,8 @@ import type {
     Scene,
     TransformNode,
 } from "@babylonjs/core";
-import type { EventData, JoystickManager, JoystickOutputData } from "nipplejs";
 
 export const PART_STYLE_PATH = "images/parts/";
-
-export const JOYSTICK_DATA: {
-    event: EventData | null;
-    data: JoystickOutputData | null;
-    manager: JoystickManager | null;
-} = {
-    event: null,
-    data: null,
-    manager: null,
-};
 
 export const SCENE_SETTINGS: {
     isThirdperson: boolean;

@@ -5,7 +5,6 @@ import nipplejs, {
     JoystickManager,
     JoystickOutputData,
 } from "nipplejs";
-import { JOYSTICK_DATA } from "@/app/utils/global";
 
 const JoystickContainer = styled.div`
   position: absolute;
@@ -34,7 +33,7 @@ export class JoystickInstance {
 
         this._joystickContainer = joystickContainer;
 
-        if (typeof window !== undefined) {
+        if (typeof window !== "undefined") {
             this._manager = nipplejs.create({
                 zone: joystickContainer,
                 // size: 100 * (window.innerHeight / 720),
@@ -64,10 +63,10 @@ export class JoystickInstance {
     public get manager(): JoystickManager {
         return this._manager;
     }
-    public get event(): EventData {
+    public get event(): EventData | null {
         return this._event;
     }
-    public get data(): JoystickOutputData {
+    public get data(): JoystickOutputData | null {
         return this._data;
     }
     public show(): void {
