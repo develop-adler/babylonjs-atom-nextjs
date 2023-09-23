@@ -6,12 +6,6 @@ import type {
     TransformNode,
 } from "@babylonjs/core";
 
-export const JOYSTICK_DATA: {
-    event: any;
-} = {
-    event: null,
-}
-
 export const SCENE_SETTINGS: {
     isThirdperson: boolean;
     isEditingPictureMode: boolean;
