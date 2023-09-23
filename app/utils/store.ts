@@ -10,7 +10,7 @@ import { Nullable } from "@babylonjs/core/types.js";
 // import Atom from "../components/3d/Atoms/Atom";
 // import Avatar from "../components/3d/Avatar/Avatar";
 // import AvatarController from "../components/3d/Avatar/AvatarController";
-// import { JoystickInstance } from "../components/3d/Joystick";
+// import JoystickInstance from "../components/3d/OverlayElements/Joystick/JoystickInstance";
 import CoreScene from "../components/3d/Core/CoreScene";
 
 interface StoreState {

@@ -6,7 +6,11 @@ import type {
     TransformNode,
 } from "@babylonjs/core";
 
-export const PART_STYLE_PATH = "images/parts/";
+export const JOYSTICK_DATA: {
+    event: any;
+} = {
+    event: null,
+}
 
 export const SCENE_SETTINGS: {
     isThirdperson: boolean;

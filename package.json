@@ -14,7 +14,8 @@
     "@babylonjs/havok": "^1.1.4",
     "@babylonjs/inspector": "^6.21.0",
     "@babylonjs/materials": "^6.21.0",
-    "@babylonjs/serializers": "^6.21.0"
+    "@babylonjs/serializers": "^6.21.0",
+    "nipplejs": "^0.10.1"
   },
   "dependencies": {
     "@babylonjs/core": "^6.21.0",
@@ -26,7 +27,6 @@
     "eslint-config-next": "13.5.2",
     "hammerjs": "^2.0.8",
     "next": "13.5.2",
-    "nipplejs": "^0.10.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "styled-components": "^6.0.8",

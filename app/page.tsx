@@ -5,7 +5,7 @@ import React from "react";
 import { Scene } from "@babylonjs/core/scene.js";
 
 import OverlayElements from "./components/3d/OverlayElements/OverlayElements.tsx";
-import Joystick from "./components/3d/Joystick.tsx";
+import Joystick from "./components/3d/OverlayElements/Joystick/Joystick.tsx";
 import CoreEngine from "./components/3d/Core/CoreEngine.tsx";
 import CoreScene from "./components/3d/Core/CoreScene.ts";
 import { useStore } from "./utils/store.ts";
@@ -13,7 +13,7 @@ import { useStore } from "./utils/store.ts";
 // const onRender = (scene: Scene) => { };
 
 export default function Home(): React.JSX.Element {
-  const { setCoreScene } = useStore();
+  const setCoreScene = useStore(state => state.setCoreScene);
 
   const onSceneReady = (scene: Scene) => {
     const coreScene = new CoreScene(scene);
@@ -28,7 +28,7 @@ export default function Home(): React.JSX.Element {
         antialias
         id="babylon-canvas"
         onSceneReady={onSceneReady}
-        // onRender={onRender}
+      // onRender={onRender}
       />
     </>
   );

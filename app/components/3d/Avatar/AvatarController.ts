@@ -12,7 +12,7 @@ import {
 } from "@babylonjs/core";
 
 import { SCENE_SETTINGS } from "@/app/utils/global";
-import { JoystickInstance } from "../Joystick";
+import JoystickInstance from "../OverlayElements/Joystick/JoystickInstance";
 import Avatar from "./Avatar";
 
 interface KeyStatus {
@@ -75,7 +75,7 @@ class AvatarController {
         avatar: Avatar,
         camera: ArcRotateCamera,
         scene: Scene,
-        joystick?: JoystickInstance,
+        joystick?: JoystickInstance
     ) {
         this._avatar = avatar;
         this._avatarRoot = avatar.root;
@@ -115,7 +115,7 @@ class AvatarController {
 
         // on key down
         this._scene.actionManager.registerAction(
-            new ExecuteCodeAction(ActionManager.OnKeyDownTrigger, e => {
+            new ExecuteCodeAction(ActionManager.OnKeyDownTrigger, (e) => {
                 const key = e.sourceEvent.key.toLowerCase();
 
                 switch (key) {
@@ -137,12 +137,12 @@ class AvatarController {
                             this.keyStatus[key as keyof KeyStatus] = true;
                         }
                 }
-            }),
+            })
         );
 
         // on key up
         this._scene.actionManager.registerAction(
-            new ExecuteCodeAction(ActionManager.OnKeyUpTrigger, e => {
+            new ExecuteCodeAction(ActionManager.OnKeyUpTrigger, (e) => {
                 const key = e.sourceEvent.key.toLowerCase();
 
                 if (key === "shift") {
@@ -157,7 +157,7 @@ class AvatarController {
                 if (key in this.keyStatus) {
                     this.keyStatus[key as keyof KeyStatus] = false;
                 }
-            }),
+            })
         );
     }
 
@@ -181,12 +181,10 @@ class AvatarController {
         if (this._isMoving) {
             if (this._isCrouching) {
                 this._playAnimation("CrouchWalk");
+            } else if (this._isRunning) {
+                this._playAnimation("Run");
             } else {
-                if (this._isRunning) {
-                    this._playAnimation("Run");
-                } else {
-                    this._playAnimation("Walk");
-                }
+                this._playAnimation("Walk");
             }
         } else {
             switch (true) {
@@ -231,8 +229,8 @@ class AvatarController {
                 translation.y +
                 AvatarController.AVATAR_HEAD_HEIGHT -
                 (this._avatar.gender === "male" ? 0 : 0.2),
-                translation.z,
-            ),
+                translation.z
+            )
         );
 
         this._updateRaycaster();
@@ -262,7 +260,7 @@ class AvatarController {
             // calculate towards camera direction
             const angleYCameraDirection: number = Math.atan2(
                 this._camera.position.x - this._avatarRoot.position.x,
-                this._camera.position.z - this._avatarRoot.position.z,
+                this._camera.position.z - this._avatarRoot.position.z
             );
 
             // rotate mesh with respect to camera direction with lerp
@@ -270,9 +268,9 @@ class AvatarController {
                 this._avatarRoot.rotationQuaternion!,
                 Quaternion.RotationAxis(
                     Vector3.Up(),
-                    angleYCameraDirection + directionOffset,
+                    angleYCameraDirection + directionOffset
                 ),
-                0.2,
+                0.2
             );
 
             // ========================================================
@@ -286,7 +284,7 @@ class AvatarController {
             // move according to camera's rotation
             this.moveDirection.rotateByQuaternionToRef(
                 this._camera.absoluteRotation,
-                this.moveDirection,
+                this.moveDirection
             );
 
             // get y velocity to make it behave properly
@@ -305,7 +303,7 @@ class AvatarController {
             this.moveDirection.set(
                 this.frontVector.x - this.sideVector.x,
                 0,
-                this.frontVector.z - this.sideVector.z,
+                this.frontVector.z - this.sideVector.z
             );
             this.moveDirection.normalize();
             this.moveDirection.scaleInPlace(this.moveSpeed * 100);
@@ -313,13 +311,13 @@ class AvatarController {
             // move according to camera's rotation
             this.moveDirection.rotateByQuaternionToRef(
                 this._camera.absoluteRotation,
-                this.moveDirection,
+                this.moveDirection
             );
 
             // calculate towards camera direction
             const angleYCameraDirection = Math.atan2(
                 this._camera.position.x - this._avatarRoot.position.x,
-                this._camera.position.z - this._avatarRoot.position.z,
+                this._camera.position.z - this._avatarRoot.position.z
             );
 
             // get direction offset
@@ -330,9 +328,9 @@ class AvatarController {
                 this._avatarRoot.rotationQuaternion!,
                 Quaternion.RotationAxis(
                     Vector3.Up(),
-                    angleYCameraDirection + directionOffset,
+                    angleYCameraDirection + directionOffset
                 ),
-                0.2,
+                0.2
             );
 
             // move the mesh by moving the physics body
@@ -354,18 +352,18 @@ class AvatarController {
         const from = new Vector3(
             this._avatarRoot.position.x,
             this._avatarRoot.position.y + 1.15,
-            this._avatarRoot.position.z,
+            this._avatarRoot.position.z
         );
         const to = new Vector3(
             this.camera.position.x,
             this.camera.position.y,
-            this.camera.position.z,
+            this.camera.position.z
         );
 
         const target = new Vector3(
             this._avatarRoot.position.x,
             this._avatarRoot.position.y + 1.15,
-            this._avatarRoot.position.z,
+            this._avatarRoot.position.z
         );
 
         this._scene.createPickingRayToRef(
@@ -373,13 +371,13 @@ class AvatarController {
             this._scene.pointerY,
             null,
             this._raycaster,
-            this._camera,
+            this._camera
         );
 
         (this._scene.getPhysicsEngine() as any)!.raycastToRef(
             from,
             to,
-            this._raycastResult,
+            this._raycastResult
         );
 
         if (this._raycastResult.hasHit) {
@@ -395,7 +393,7 @@ class AvatarController {
 
             // Computes the new position of the camera
             const newPosition = hitPoint.subtract(
-                direction.scale(AvatarController.DISTANCE_FROM_WALL * distance),
+                direction.scale(AvatarController.DISTANCE_FROM_WALL * distance)
             );
 
             // update the max distance of camera
@@ -406,7 +404,7 @@ class AvatarController {
             this._camera.position = Vector3.Lerp(
                 this._camera.position,
                 newPosition,
-                lerpFactor,
+                lerpFactor
             );
 
             this._raycastResult.reset();
@@ -424,11 +422,13 @@ class AvatarController {
 
     private _toggleRun(): void {
         this._isRunning = !this._isRunning;
-        this.moveSpeed = this._isRunning
-            ? AvatarController.RUN_SPEED *
-            (this._avatar.gender === "female" ? 0.7 : 1)
-            : AvatarController.WALK_SPEED *
-            (this._avatar.gender === "female" ? 0.7 : 1);
+        const genderSpeedRatio = this._avatar.gender === "female" ? 0.7 : 1;
+
+        const moveSpeed = this._isRunning
+            ? AvatarController.RUN_SPEED * genderSpeedRatio
+            : AvatarController.WALK_SPEED * genderSpeedRatio;
+
+        this.moveSpeed = moveSpeed;
     }
 
     private _calculateDirectionOffset(): number {
@@ -480,12 +480,12 @@ class AvatarController {
                         this.animSpeed,
                         this._avatar.animations[name].from,
                         this._avatar.animations[name].to,
-                        false,
+                        false
                     );
                 } else {
                     animationGroup.stop();
                 }
-            },
+            }
         );
     }
 

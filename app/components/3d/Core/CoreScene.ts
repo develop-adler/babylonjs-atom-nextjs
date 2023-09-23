@@ -1,7 +1,7 @@
 "use client";
 
 import "@babylonjs/core/Debug/debugLayer";
-import "@babylonjs/inspector";
+// import "@babylonjs/inspector";
 import "@babylonjs/loaders";
 import * as BABYLON from "@babylonjs/core";
 import HavokPhysics, { HavokPhysicsWithBindings } from "@babylonjs/havok";
@@ -13,7 +13,7 @@ import Atom from "../Atoms/Atom";
 import ClassicRoom from "../Atoms/ClassicRoom";
 // import Furniture from "../AtomElements/Furniture";
 import LoadingUI from "../OverlayElements/LoadingUI";
-import { JoystickInstance } from "../Joystick";
+import JoystickInstance from "../OverlayElements/Joystick/JoystickInstance";
 
 import { SCENE_SETTINGS } from "@/app/utils/global";
 import {
