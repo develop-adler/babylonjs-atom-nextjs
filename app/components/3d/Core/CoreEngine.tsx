@@ -6,20 +6,28 @@ import { EventState, Observer } from "@babylonjs/core/Misc/observable.js";
 import { Scene, SceneOptions } from "@babylonjs/core/scene.js";
 import { Nullable } from "@babylonjs/core/types.js";
 import { SceneContext, SceneContextType } from "./contextProvider/scene";
-import { EngineCanvasContext, EngineCanvasContextType } from "./contextProvider/engine";
+import {
+  EngineCanvasContext,
+  EngineCanvasContextType,
+} from "./contextProvider/engine";
 import styled from "styled-components";
 import { useStore } from "@/app/utils/store";
 
 export * from "./contextProvider/engine";
 export * from "./contextProvider/scene";
 
-const BabylonCanvas = styled.canvas`
-  position: absolute;
+const Canvas = styled.canvas`
+  position: relative;
   width: 100%;
   height: 100%;
   border: none;
   outline: none;
   overflow: hidden;
+  border-radius: 0.2rem;
+`;
+
+const CanvasChildren = styled.div`
+  z-index: 10;
 `;
 
 export type BabylonjsProps = {
@@ -294,12 +302,15 @@ const CoreEngine = (
 
   return (
     <>
-      <BabylonCanvas ref={reactCanvas} {...rest} />
-      <EngineCanvasContext.Provider value={engineContext}>
-        <SceneContext.Provider value={sceneContext}>
+      <Canvas ref={reactCanvas} {...rest}>
+        <CanvasChildren>
           {(renderChildrenWhenReady !== true ||
             (renderChildrenWhenReady === true && sceneContext.sceneReady)) &&
             children}
+        </CanvasChildren>
+      </Canvas>
+      <EngineCanvasContext.Provider value={engineContext}>
+        <SceneContext.Provider value={sceneContext}>
         </SceneContext.Provider>
       </EngineCanvasContext.Provider>
     </>

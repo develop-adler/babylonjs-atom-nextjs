@@ -17,14 +17,15 @@ class LoadingUI {
             const customLoadingScreenCss = document.createElement("style");
             customLoadingScreenCss.innerHTML = `
                 #customLoadingScreenDiv {
-                    position: absolute;
+                    position: relative;
                     top: 0;
                     left: 0;
-                    width: 100vw;
-                    height: 100vh;
+                    width: 100%;
+                    height: 100%;
                     background: #1d1d1d;
                     padding: 0;
                     border: none;
+                    outline: none;
                     overflow: hidden;
                     z-index: 1000;
                 }
@@ -40,8 +41,8 @@ class LoadingUI {
             this._loadingGif.alt = "Loading...";
             const customLoadingScreenGifCss = document.createElement("style");
             customLoadingScreenGifCss.innerHTML = `
-                #customLoadingScreenGif {
-                    position: absolute;
+                .customLoadingScreenGif {
+                    position: relative;
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
@@ -61,13 +62,6 @@ class LoadingUI {
         DefaultLoadingScreen.prototype.hideLoadingUI = () => {
             document.getElementById("customLoadingScreenDiv")!.style.display = "none";
         };
-    }
-
-    public get loadingDiv(): HTMLDivElement {
-        return this._loadingDiv;
-    }
-    public get loadingGif(): HTMLImageElement {
-        return this._loadingGif;
     }
 }
 

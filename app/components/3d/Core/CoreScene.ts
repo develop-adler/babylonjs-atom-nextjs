@@ -44,7 +44,7 @@ export default class MainScene {
         MainScene.instance = this;
 
         // replace default loading screen overlay
-        new LoadingUI();
+        // new LoadingUI();
 
         this._scene = scene;
         this._engine = scene.getEngine();
@@ -203,7 +203,7 @@ export default class MainScene {
         this._scene.animationPropertiesOverride.loopMode = 1;
 
         // Enable physics
-        const gravityVector = new BABYLON.Vector3(0, -9.81 * 2, 0);
+        const gravityVector = new BABYLON.Vector3(0, -9.81, 0);
         this._havok = await HavokPhysics();
         // pass the engine to the plugin
         const havokPlugin = new BABYLON.HavokPlugin(true, this._havok);

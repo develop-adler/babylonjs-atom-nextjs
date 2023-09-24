@@ -35,4 +35,12 @@ declare global {
     }
 
     type BodyParts = "gender" | "hair" | "top" | "bottom" | "shoes";
+
+    interface AdlerPostProps {
+        author: string;
+        content: React.ReactNode;
+    }
+    interface AdlerFeedProps {
+        posts: AdlerPostProps[];
+    }
 }
