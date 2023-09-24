@@ -56,6 +56,8 @@ class Furniture {
         this._root = meshes[0];
         this._mesh = meshes[1];
 
+        this._mesh.material?.freeze();
+
         if (this._shadowGenerators.length) {
             this._shadowGenerators?.forEach(generator => {
                 this._mesh.receiveShadows = true;

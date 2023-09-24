@@ -438,6 +438,7 @@ export default class MainScene {
                 if (this._shadowGenerators.length) {
                     this._shadowGenerators?.forEach((generator) => {
                         meshes.forEach((mesh) => {
+                            mesh.material?.freeze();
                             mesh.receiveShadows = true;
                             generator.addShadowCaster(mesh);
                         });

@@ -251,6 +251,8 @@ class Avatar {
                     // to use the same animations
                     mesh.skeleton = this._skeleton;
 
+                    mesh.material?.freeze();
+
                     // add meshes to reflection list
                     this._atom.addMeshToReflectionList(mesh as Mesh);
 
