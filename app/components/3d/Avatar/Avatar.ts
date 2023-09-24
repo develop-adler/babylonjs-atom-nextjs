@@ -187,18 +187,6 @@ class Avatar {
             console.error(`Part ${partStyleName} does not exist`);
             return;
         }
-        // if (partStyleName.includes("body")) {
-        //     console.error(`Cannot change body`);
-        //     return;
-        // }
-        // if (partStyleName.includes("eyeL")) {
-        //     console.error(`Cannot change eyeL`);
-        //     return;
-        // }
-        // if (partStyleName.includes("eyeR")) {
-        //     console.error(`Cannot change eyeR`);
-        //     return;
-        // }
 
         SceneLoader.ImportMesh(
             "",

@@ -66,6 +66,7 @@ class AvatarController {
     private static readonly CROUCH_SPEED: number = 0.015;
     private static readonly WALK_SPEED: number = 0.015;
     private static readonly RUN_SPEED: number = 0.03;
+    private static readonly JUMP_FORCE: number = 2500;
     private static readonly DISTANCE_FROM_WALL: number = 0.8;
 
     private animSpeed: number = 1.0;
@@ -131,6 +132,9 @@ class AvatarController {
                         break;
                     case "g":
                         this._isDancing = !this._isDancing;
+                        break;
+                    case " ":
+                        this._jump();
                         break;
                     default:
                         if (key in this.keyStatus) {
@@ -418,6 +422,13 @@ class AvatarController {
         } else {
             this._camera.upperRadiusLimit = 0;
         }
+    }
+
+    private _jump(): void {
+        this._meshBody.applyImpulse(
+            new Vector3(0, AvatarController.JUMP_FORCE, 0),
+            this._avatarRoot.getAbsolutePosition()
+        );
     }
 
     private _toggleRun(): void {
