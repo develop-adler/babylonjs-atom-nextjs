@@ -42,6 +42,12 @@ const AdlerOverlay = styled.div`
 const LeftSidebarContainer = styled.div`
   flex-grow: 1;
   max-width: 20rem;
+
+  @media screen and (max-width: 768px) {
+    flex-grow: 0;
+    width: 2rem;
+    max-width: 0;
+  }
 `;
 
 const HomeButton = styled.button`

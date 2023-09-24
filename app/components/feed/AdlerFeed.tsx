@@ -4,7 +4,6 @@ import AdlerPost from './AdlerPost';
 
 const FeedContainer = styled.div`
   flex-grow: 2;
-  min-width: 25rem;
   width: 100%;
   max-width: 50rem;
   margin: 0 auto;
