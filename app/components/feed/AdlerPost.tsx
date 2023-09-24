@@ -3,7 +3,7 @@ import Image from "next/image";
 import styled from "styled-components";
 
 const PostContainer = styled.div`
-  padding: 1rem 1rem 3rem 0;
+  padding: 1rem 1rem 3rem 1rem;
   border-top: 1px solid #353535;
   border-bottom: 1px solid #353535;
   user-select: none;
