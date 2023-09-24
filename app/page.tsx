@@ -36,27 +36,7 @@ const AdlerOverlay = styled.div`
   width: 80%;
   max-width: 70rem;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
   background-color: #000;
-
-  /* width */
-  &::-webkit-scrollbar {
-    width: 8%;
-  }
-  /* Track */
-  &::-webkit-scrollbar-track {
-    background: none;
-  }
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    background: #3b3b3b;
-    border-radius: 5px;
-  }
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #424242;
-  }
 `;
 
 const LeftSidebarContainer = styled.div`
