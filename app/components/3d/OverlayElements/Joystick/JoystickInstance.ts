@@ -1,8 +1,4 @@
-import nipplejs, {
-    EventData,
-    JoystickManager,
-    JoystickOutputData,
-} from "nipplejs";
+import { EventData, JoystickManager, JoystickOutputData } from "nipplejs";
 
 export default class JoystickInstance {
     private static instance: JoystickInstance;
@@ -12,31 +8,25 @@ export default class JoystickInstance {
     private _data: JoystickOutputData | null;
     private _joystickContainer: HTMLElement;
 
-    constructor(joystickContainer: HTMLElement) {
+    constructor(manager: JoystickManager, container: HTMLDivElement) {
         JoystickInstance.instance = this;
 
-        this._joystickContainer = joystickContainer;
+        this._manager = manager;
+        this._joystickContainer = container;
         this._event = null;
         this._data = null;
 
-        // this._manager = nipplejs.create({
-        //     zone: joystickContainer,
-        //     // size: 100 * (window.innerHeight / 720),
-        //     mode: "static",
-        //     position: { top: "50%", left: "50%" },
-        // });
+        const handleJoystickMove = (
+            e: EventData,
+            data: JoystickOutputData
+        ): void => {
+            this._event = e;
+            this._data = data;
+        };
 
-        // const handleJoystickMove = (
-        //     e: EventData,
-        //     data: JoystickOutputData
-        // ): void => {
-        //     this._event = e;
-        //     this._data = data;
-        // };
-
-        // this._manager.on("start", handleJoystickMove);
-        // this._manager.on("move", handleJoystickMove);
-        // this._manager.on("end", handleJoystickMove);
+        this._manager.on("start", handleJoystickMove);
+        this._manager.on("move", handleJoystickMove);
+        this._manager.on("end", handleJoystickMove);
     }
 
     public static getInstance(): JoystickInstance {

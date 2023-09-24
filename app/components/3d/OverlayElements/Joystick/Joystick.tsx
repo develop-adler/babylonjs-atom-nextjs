@@ -21,8 +21,19 @@ const Joystick = (): React.JSX.Element => {
 
   useEffect(() => {
     if (!joystickContainerRef.current) return;
-    const joystick = new JoystickInstance(joystickContainerRef.current);
-    return () => joystick.manager.destroy();
+
+    let joystick: JoystickInstance;
+    if (typeof window !== 'undefined') {
+      import('nipplejs').then((nipplejs) => {
+        const manager = nipplejs.create({
+          zone: joystickContainerRef.current!,
+          mode: 'static',
+          position: { left: '50%', top: '50%' },
+        });
+        joystick = new JoystickInstance(manager, joystickContainerRef.current!);
+      })
+    }
+    return () => joystick?.manager.destroy();
   }, []);
 
   return <JoystickContainer ref={joystickContainerRef} />;
