@@ -30,6 +30,8 @@ class UploadedModel {
         this._shadowGenerators = shadowGenerators;
 
         this._parent = new Mesh("parent", scene);
+
+        this._loadModelFromFile(file);
     }
     public get file(): File {
         return this._file;
@@ -66,8 +68,10 @@ class UploadedModel {
                 }
 
                 // add meshes to a parent node and assign to imported mesh map
+                // and freeze materials
                 const parent = new Mesh(filename, this._scene);
                 meshes.forEach(mesh => {
+                    mesh.material?.freeze();
                     mesh.outlineColor = Color3.Green();
                     mesh.outlineWidth = 0.05;
                     mesh.parent = parent;

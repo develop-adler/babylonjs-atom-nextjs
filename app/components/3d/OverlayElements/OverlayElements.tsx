@@ -334,22 +334,20 @@ const OverlayElements = (): React.JSX.Element => {
             if (partStyleIndex === window.localStorage.getItem("avatarGender")) {
                 return true;
             }
-        } else {
+        } else if (
+            Number(partStyleIndex) - 1 ===
+            MALE_PARTS[currentCategory as keyof GenderParts].indexOf(
+                coreScene.avatar.parts[currentCategory as keyof GenderParts][0]
+            ) ||
+            Number(partStyleIndex) - 1 ===
+            FEMALE_PARTS[currentCategory as keyof GenderParts].indexOf(
+                coreScene.avatar.parts[currentCategory as keyof GenderParts][0]
+            )
+        ) {
             // check the index of the current part style in gender parts
             // if it matches the index of the current part style in the current category,
             // highlight the image
-            if (
-                Number(partStyleIndex) - 1 ===
-                MALE_PARTS[currentCategory as keyof GenderParts].indexOf(
-                    coreScene.avatar.parts[currentCategory as keyof GenderParts][0]
-                ) ||
-                Number(partStyleIndex) - 1 ===
-                FEMALE_PARTS[currentCategory as keyof GenderParts].indexOf(
-                    coreScene.avatar.parts[currentCategory as keyof GenderParts][0]
-                )
-            ) {
-                return true;
-            }
+            return true;
         }
         return false;
     };
