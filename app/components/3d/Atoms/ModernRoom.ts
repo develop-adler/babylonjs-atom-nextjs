@@ -55,38 +55,11 @@ class ModernRoom extends Atom {
                     // optimize performance
                     mesh.freezeWorldMatrix();
 
-                    switch (mesh.name) {
-                        case "SideWallTopMolding":
-                        case "SideWallBottomMolding":
-                        case "TopGrill":
-                            if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach((generator) => {
-                                    generator.addShadowCaster(mesh);
-                                });
-                            }
-                            break;
-                        case "SideWalls":
-                        case "FrontWall":
-                        case "BackWall":
-                            const wallMaterial = new StandardMaterial(
-                                "SideWallsMaterial",
-                                scene
-                            );
-                            wallMaterial.diffuseColor = Color3.FromHexString(
-                                wallColor ?? "#ffffff"
-                            );
-                            mesh.material = wallMaterial;
-
-                            if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach((generator) => {
-                                    generator.addShadowCaster(mesh);
-                                });
-                            }
-                            break;
-                        case "TopGlass":
-                            mesh.visibility = 0.2;
-                            break;
-                    }
+                    // if (this._shadowGenerators.length) {
+                    //     this._shadowGenerators?.forEach((generator) => {
+                    //         generator.addShadowCaster(mesh);
+                    //     });
+                    // }
 
                     mesh.material?.freeze();
                     mesh.doNotSyncBoundingInfo = true;
