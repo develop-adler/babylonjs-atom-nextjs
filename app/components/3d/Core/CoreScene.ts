@@ -499,21 +499,21 @@ export default class MainScene {
         );
 
         // dim light a small amount
-        hemiLight.intensity = 0.7;
+        hemiLight.intensity = 1;
 
         const dirLight = new BABYLON.DirectionalLight(
             "dirLight",
-            new BABYLON.Vector3(6.5, -20, -2),
+            new BABYLON.Vector3(10, -35, -2),
             this._scene
         );
 
-        dirLight.position = new BABYLON.Vector3(3, 60, -5);
-        dirLight.intensity = 1;
+        dirLight.position = new BABYLON.Vector3(-5, 25, 0);
+        dirLight.intensity = 0.4;
         dirLight.shadowEnabled = true;
-        dirLight.shadowMinZ = 10;
-        dirLight.shadowMaxZ = 60;
+        dirLight.shadowMinZ = 2;
+        dirLight.shadowMaxZ = 30;
 
-        // this.createLightGizmo(dirLight);
+        this.createLightGizmo(dirLight);
 
         // Shadows
         const shadowGenerator = new BABYLON.ShadowGenerator(2048, dirLight);
@@ -529,22 +529,23 @@ export default class MainScene {
         // shadowGenerator.filteringQuality = ShadowGenerator.QUALITY_LOW;
     }
 
-    // private createLightGizmo(customLight: BABYLON.Light): void {
-    //     const lightGizmo = new BABYLON.LightGizmo();
-    //     lightGizmo.scaleRatio = 2;
-    //     lightGizmo.light = customLight;
+    private createLightGizmo(customLight: BABYLON.Light): void {
+        const lightGizmo = new BABYLON.LightGizmo();
+        lightGizmo.scaleRatio = 2;
+        lightGizmo.light = customLight;
 
-    //     const gizmoManager = new BABYLON.GizmoManager(this._scene);
-    //     gizmoManager.positionGizmoEnabled = true;
-    //     gizmoManager.rotationGizmoEnabled = true;
-    //     gizmoManager.usePointerToAttachGizmos = false;
-    //     gizmoManager.attachToMesh(lightGizmo.attachedMesh);
-    // }
+        this._gizmoManager.attachToMesh(lightGizmo.attachedMesh);
+    }
 
     private createAtom(type: string): Atom {
         switch (type) {
             case "classic":
-                return new ClassicRoom(this._scene);
+                return new ClassicRoom(
+                    this._scene,
+                    "#ffffff",
+                    this._atom?.reflectionList,
+                    this._shadowGenerators
+                );
         }
 
         return undefined!;

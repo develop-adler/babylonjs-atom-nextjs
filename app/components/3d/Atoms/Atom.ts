@@ -193,6 +193,9 @@ abstract class Atom {
     public get models(): { [key: string]: AbstractMesh } {
         return this._models;
     }
+    public get reflectionList(): Mesh[] {
+        return this._reflectionList;
+    }
 
     public addMeshToReflectionList(mesh: Mesh): void {
         this._reflectionList.push(mesh);
@@ -247,17 +250,15 @@ abstract class Atom {
         this._scene.removeMesh(this._wallLMesh);
         this._scene.removeMesh(this._wallRMesh);
 
-        this._scene.removeMaterial(this._groundMesh.material as StandardMaterial);
-        this._scene.removeMaterial(this._frontWallMesh.material as StandardMaterial);
-        this._scene.removeMaterial(this._wallLMesh.material as StandardMaterial);
-        this._scene.removeMaterial(this._wallRMesh.material as StandardMaterial);
+        this._groundMesh.dispose(false, true);
+        this._frontWallMesh.dispose(false, true);
+        this._backWallMesh.dispose(false, true);
+        this._wallLMesh.dispose(false, true);
+        this._wallRMesh.dispose(false, true);
 
-        this._groundMesh.dispose();
-        this._frontWallMesh.dispose();
-        this._wallLMesh.dispose();
-        this._wallRMesh.dispose();
         this._groundAggregate.dispose();
         this._frontWallAggregate.dispose();
+        this._backWallAggregate.dispose();
         this._wallLAggregate.dispose();
         this._wallRAggregate.dispose();
     }
