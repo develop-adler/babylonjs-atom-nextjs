@@ -120,6 +120,22 @@ export default class MainScene {
             //     rotation: new BABYLON.Vector3(0, Math.PI * 0.5, 0),
             // });
 
+            // canvas/window resize event handler
+            const handleResize = () => {
+                // widen camera FOV on narrows screens
+                if (window.innerWidth < window.innerHeight) {
+                    this._camera.fov = 1;
+                } else {
+                    this._camera.fov = 0.8;
+                }
+            };
+            window.addEventListener("resize", handleResize);
+
+            // remove event listener
+            this._scene.onDispose = () => {
+                window.removeEventListener("resize", handleResize);
+            };
+
             // disposing resources
             this._engine.onDisposeObservable.addOnce(() => {
                 this.dispose();
@@ -172,6 +188,7 @@ export default class MainScene {
         this._scene.environmentTexture = envMapTexture;
         this._scene.createDefaultSkybox(envMapTexture, true);
         this._scene.environmentIntensity = 0.5;
+        // this._scene.clearColor = BABYLON.Color4.FromHexString('#FC4C91');
 
         // enable animation blending
         this._scene.animationPropertiesOverride =
