@@ -52,7 +52,6 @@ const CoreEngine = (
 
   const reactCanvas = useRef<Nullable<HTMLCanvasElement>>(null);
   const engineRef = useRef<Nullable<Engine>>(null);
-  const sceneRef = useRef<Nullable<Scene>>(null);
 
   const setCore = useStore((state) => state.setCore);
 
@@ -67,7 +66,6 @@ const CoreEngine = (
 
       let resizeObserver: Nullable<ResizeObserver> = null;
 
-      if (sceneRef.current) return;
       const scene = new Scene(engineRef.current, sceneOptions);
 
       if (props.observeCanvasResize !== false && window.ResizeObserver) {
@@ -113,7 +111,7 @@ const CoreEngine = (
       });
 
       const resize = () => {
-        scene.getEngine().resize();
+        engineRef.current!.resize();
       };
 
       if (window) {
@@ -130,7 +128,7 @@ const CoreEngine = (
           window.removeEventListener("resize", resize);
         }
 
-        scene.getEngine().dispose();
+        engineRef.current!.dispose();
 
         setCore({
           canvas: null,

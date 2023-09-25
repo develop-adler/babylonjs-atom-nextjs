@@ -82,6 +82,7 @@ export default class MainScene {
             optimizer.start();
 
             this.createLight();
+            this.initInputControls();
 
             this._atom = this.createAtom("classic");
 
@@ -91,12 +92,12 @@ export default class MainScene {
                 this._shadowGenerators
             );
 
-            await this._avatar.init();
+            this._avatar.init().then(() => {
+                this.setThirdperson();
 
-            this.setThirdperson();
-
-            // hide loading screen
-            this._engine.hideLoadingUI();
+                // hide loading screen
+                this._engine.hideLoadingUI();
+            });
 
             // new Furniture("table_001.glb", this._scene, this._atom, this._shadowGenerators, {
             //     position: new BABYLON.Vector3(3, 0, 2),
@@ -119,33 +120,10 @@ export default class MainScene {
             //     rotation: new BABYLON.Vector3(0, Math.PI * 0.5, 0),
             // });
 
-            this.initInputControls();
-
-            this._engine.runRenderLoop(() => {
-                this._scene.render();
-            });
-
-            // canvas/window resize event handler
-            const handleResize = () => {
-                this._engine.resize();
-
-                // widen camera FOV on narrows screens
-                if (window.innerWidth < window.innerHeight) {
-                    this._camera.fov = 1;
-                } else {
-                    this._camera.fov = 0.8;
-                }
-            };
-            window.addEventListener("resize", handleResize);
-
             // disposing resources
             this._engine.onDisposeObservable.addOnce(() => {
-                window.removeEventListener("resize", handleResize);
                 this.dispose();
             });
-            this._scene.onDispose = () => {
-                window.removeEventListener("resize", handleResize);
-            };
         });
     }
 
