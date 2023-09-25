@@ -29,10 +29,12 @@ abstract class Atom {
 
     private _groundMesh: Mesh;
     private _frontWallMesh: Mesh;
+    private _backWallMesh: InstancedMesh;
     private _wallLMesh: InstancedMesh;
     private _wallRMesh: InstancedMesh;
     private _groundAggregate: PhysicsAggregate;
     private _frontWallAggregate: PhysicsAggregate;
+    private _backWallAggregate: PhysicsAggregate;
     private _wallLAggregate: PhysicsAggregate;
     private _wallRAggregate: PhysicsAggregate;
 
@@ -90,10 +92,12 @@ abstract class Atom {
             this._scene,
         );
 
+        this._backWallMesh = this._frontWallMesh.createInstance("backWallMesh");
         this._wallLMesh = this._frontWallMesh.createInstance("wallLMesh");
         this._wallRMesh = this._frontWallMesh.createInstance("wallRMesh");
 
         this._frontWallMesh.isVisible = false;
+        this._backWallMesh.isVisible = false;
         this._wallLMesh.isVisible = false;
         this._wallRMesh.isVisible = false;
 
@@ -101,6 +105,12 @@ abstract class Atom {
             0,
             this.dimensions.height * 2,
             -this.dimensions.depth * 2,
+        );
+
+        this._backWallMesh.position = new Vector3(
+            0,
+            this.dimensions.height * 2,
+            this.dimensions.depth * 2,
         );
 
         this._wallLMesh.position = new Vector3(
@@ -121,12 +131,14 @@ abstract class Atom {
         // static mesh, no need to evaluate every frame
         this._groundMesh.freezeWorldMatrix();
         this._frontWallMesh.freezeWorldMatrix();
+        this._backWallMesh.freezeWorldMatrix();
         this._wallLMesh.freezeWorldMatrix();
         this._wallRMesh.freezeWorldMatrix();
 
         // don't update bounding info
         this._groundMesh.doNotSyncBoundingInfo = true;
         this._frontWallMesh.doNotSyncBoundingInfo = true;
+        this._backWallMesh.doNotSyncBoundingInfo = true;
         this._wallLMesh.doNotSyncBoundingInfo = true;
         this._wallRMesh.doNotSyncBoundingInfo = true;
 
@@ -143,6 +155,12 @@ abstract class Atom {
         );
         this._frontWallAggregate = new PhysicsAggregate(
             this._frontWallMesh,
+            PhysicsShapeType.BOX,
+            { mass: 0, restitution: 0.01 },
+            this._scene,
+        );
+        this._backWallAggregate = new PhysicsAggregate(
+            this._backWallMesh,
             PhysicsShapeType.BOX,
             { mass: 0, restitution: 0.01 },
             this._scene,

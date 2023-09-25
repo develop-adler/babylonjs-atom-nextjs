@@ -61,8 +61,6 @@ const setupImageUpload = (coreScene: CoreScene): void => {
         // disable panning
         editingPictureCamera.panningSensibility = 0;
 
-        console.log(coreScene);
-
         coreScene.scene.switchActiveCamera(editingPictureCamera);
         coreScene.avatar.hide();
         coreScene.avatarController.stop();

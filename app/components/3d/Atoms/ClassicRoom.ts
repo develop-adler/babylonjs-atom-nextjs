@@ -10,9 +10,9 @@ class ClassicRoom extends Atom {
         super(
             scene,
             {
-                width: 2.5 * 1.2,
-                height: 2.5 * 1.2,
-                depth: 2.5 * 1.2,
+                width: 2.5,
+                height: 2.5,
+                depth: 2.5,
             },
             reflectionList,
         );
@@ -21,13 +21,11 @@ class ClassicRoom extends Atom {
         SceneLoader.ImportMesh(
             "",
             "/models/atoms/",
-            "classic-room.glb",
+            "classic.glb",
             scene,
             result => {
                 this._root = result[0];
                 this._meshes = result.slice(1);
-
-                this._root.scaling.scaleInPlace(1.2);
 
                 this.addPictureToAtom("/textures/baby-sonic-2.avif", "front");
                 this.addPictureToAtom("/textures/bonk-shiba.avif", "leftFront");

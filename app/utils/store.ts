@@ -31,6 +31,17 @@ interface StoreState {
     // gizmoManager: Nullable<GizmoManager>;
     // joystick: Nullable<JoystickInstance>;
 
+    setCore: ({
+        coreScene,
+        canvas,
+        engine,
+        scene,
+    }: {
+        coreScene?: CoreScene;
+        canvas: Nullable<HTMLCanvasElement>;
+        engine: Nullable<Engine>;
+        scene: Nullable<Scene>;
+    }) => void;
     setCoreScene: (coreScene: CoreScene) => void;
     setCanvas: (canvas: Nullable<HTMLCanvasElement>) => void;
     setEngine: (engine: Nullable<Engine>) => void;
@@ -67,6 +78,20 @@ export const useStore = create<StoreState>()((set) => ({
     setCanvas: (canvas: Nullable<HTMLCanvasElement>) => set({ canvas }),
     setEngine: (engine: Nullable<Engine>) => set({ engine }),
     setScene: (scene: Nullable<Scene>) => set({ scene }),
+
+    setCore: ({
+        coreScene,
+        canvas,
+        engine,
+        scene,
+    }) =>
+        set({
+            coreScene: coreScene,
+            canvas: canvas,
+            engine: engine,
+            scene: scene,
+        }),
+
     // setHavok: (havok: Nullable<HavokPhysicsWithBindings>) => set({ havok }),
     // setCamera: (camera: Nullable<ArcRotateCamera>) => set({ camera }),
     // setAtom: (atom: Nullable<Atom>) => set({ atom }),
