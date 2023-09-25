@@ -85,7 +85,21 @@ export default class MainScene {
             this.createLight();
             this.initInputControls();
 
-            this._atom = this.createAtom("modern");
+            // read json file
+            let settings;
+            if (typeof window !== "undefined") {
+                const response = await window.fetch("/settings.json");
+
+                try {
+                    settings = await response.json();
+                    SCENE_SETTINGS.settings = settings;
+
+                    const { theme, wallColor, paintings } = SCENE_SETTINGS.settings;
+                    this._atom = this.createAtom(theme, wallColor, paintings);
+                } catch (e) {
+                    throw new Error("Error parsing json file:", e as Error);
+                }
+            }
 
             this._avatar = new Avatar(
                 this._scene,
@@ -538,25 +552,39 @@ export default class MainScene {
         this._gizmoManager.attachToMesh(lightGizmo.attachedMesh);
     }
 
-    private createAtom(type: string): Atom {
+    private createAtom(
+        type: string = "classic",
+        wallColor: string = "#ffffff",
+        paintings: PaintingURLs
+    ): Atom {
         switch (type) {
             case "classic":
                 return new ClassicRoom(
                     this._scene,
-                    "#ffffff",
                     this._atom?.reflectionList,
-                    this._shadowGenerators
+                    this._shadowGenerators,
+                    wallColor,
+                    paintings
                 );
             case "modern":
                 return new ModernRoom(
                     this._scene,
-                    "#ffffff",
                     this._atom?.reflectionList,
-                    this._shadowGenerators
+                    this._shadowGenerators,
+                    wallColor,
+                    paintings
                 );
         }
 
-        return undefined!;
+        console.error("Invalid atom type, using classic room instead");
+
+        return new ClassicRoom(
+            this._scene,
+            this._atom?.reflectionList,
+            this._shadowGenerators,
+            wallColor,
+            paintings
+        );
     }
 
     public dispose(): void {

@@ -16,9 +16,10 @@ class ModernRoom extends Atom {
 
     constructor(
         scene: Scene,
-        wallColor?: string,
         reflectionList?: Mesh[],
-        shadowGenerators?: ShadowGenerator[]
+        shadowGenerators?: ShadowGenerator[],
+        wallColor?: string,
+        paintingURLs?: PaintingURLs,
     ) {
         super(
             scene,
@@ -41,11 +42,9 @@ class ModernRoom extends Atom {
                 this._root = meshes[0];
                 this._meshes = meshes.slice(1);
 
-                this.addPictureToAtom("/textures/baby-sonic-2.avif", "front");
-                this.addPictureToAtom("/textures/bonk-shiba.avif", "leftFront");
-                this.addPictureToAtom("/textures/angry-frog.avif", "rightFront");
-                this.addPictureToAtom("/textures/1234.avif", "leftBack");
-                this.addPictureToAtom("/textures/hyundai.avif", "rightBack");
+                Object.entries(paintingURLs ?? {}).forEach(([key, value]) => {
+                    this.addPictureToAtom(value, key as PictureSide);
+                });
 
                 this.addMeshesToReflectionList(this._meshes as Mesh[]);
 
@@ -60,6 +59,18 @@ class ModernRoom extends Atom {
                     //         generator.addShadowCaster(mesh);
                     //     });
                     // }
+                    switch (mesh.name) {
+                        case "BackWall":
+                            const wallMaterial = new StandardMaterial(
+                                "SideWallsMaterial",
+                                scene
+                            );
+                            wallMaterial.diffuseColor = Color3.FromHexString(
+                                wallColor ?? "#ffffff"
+                            );
+                            mesh.material = wallMaterial;
+                            break;
+                    }
 
                     mesh.material?.freeze();
                     mesh.doNotSyncBoundingInfo = true;

@@ -42,4 +42,18 @@ declare global {
     interface AdlerFeedProps {
         posts: AdlerPostProps[];
     }
+
+    interface PaintingURLs {
+        front: string;
+        leftFront: string;
+        rightFront: string;
+        leftBack: string;
+        rightBack: string;
+    }
+    interface UserSettings {
+        "theme": AtomType,
+        "wallColor": string,
+        "paintings": PaintingURLs
+    }
+
 }

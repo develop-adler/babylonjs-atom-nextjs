@@ -14,7 +14,13 @@ class ClassicRoom extends Atom {
     private _meshes: AbstractMesh[] = [];
     private _shadowGenerators: ShadowGenerator[];
 
-    constructor(scene: Scene, wallColor?: string, reflectionList?: Mesh[], shadowGenerators?: ShadowGenerator[]) {
+    constructor(
+        scene: Scene,
+        reflectionList?: Mesh[],
+        shadowGenerators?: ShadowGenerator[],
+        wallColor?: string,
+        paintingURLs?: PaintingURLs,
+    ) {
         super(
             scene,
             {
@@ -36,11 +42,9 @@ class ClassicRoom extends Atom {
                 this._root = meshes[0];
                 this._meshes = meshes.slice(1);
 
-                this.addPictureToAtom("/textures/baby-sonic-2.avif", "front");
-                this.addPictureToAtom("/textures/bonk-shiba.avif", "leftFront");
-                this.addPictureToAtom("/textures/angry-frog.avif", "rightFront");
-                this.addPictureToAtom("/textures/1234.avif", "leftBack");
-                this.addPictureToAtom("/textures/hyundai.avif", "rightBack");
+                Object.entries(paintingURLs ?? {}).forEach(([key, value]) => {
+                    this.addPictureToAtom(value, key as PictureSide);
+                });
 
                 this.addMeshesToReflectionList(this._meshes as Mesh[]);
 
@@ -55,7 +59,7 @@ class ClassicRoom extends Atom {
                         case "SideWallBottomMolding":
                         case "TopGrill":
                             if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach(generator => {
+                                this._shadowGenerators?.forEach((generator) => {
                                     generator.addShadowCaster(mesh);
                                 });
                             }
@@ -63,14 +67,17 @@ class ClassicRoom extends Atom {
                         case "SideWalls":
                         case "FrontWall":
                         case "BackWall":
-                            const wallMaterial = new StandardMaterial("SideWallsMaterial", scene);
+                            const wallMaterial = new StandardMaterial(
+                                "SideWallsMaterial",
+                                scene
+                            );
                             wallMaterial.diffuseColor = Color3.FromHexString(
                                 wallColor ?? "#ffffff"
                             );
                             mesh.material = wallMaterial;
 
                             if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach(generator => {
+                                this._shadowGenerators?.forEach((generator) => {
                                     generator.addShadowCaster(mesh);
                                 });
                             }
@@ -83,7 +90,6 @@ class ClassicRoom extends Atom {
                     mesh.material?.freeze();
                     mesh.doNotSyncBoundingInfo = true;
                 });
-
             }
         );
     }

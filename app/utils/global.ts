@@ -7,6 +7,7 @@ import type {
 } from "@babylonjs/core";
 
 export const SCENE_SETTINGS: {
+    settings: UserSettings;
     isThirdperson: boolean;
     isEditingPictureMode: boolean;
     isEditingModelMode: boolean;
@@ -19,6 +20,17 @@ export const SCENE_SETTINGS: {
     importedMeshesMap: Map<number, AbstractMesh>;
     importedMeshGroups: Map<string, TransformNode>;
 } = {
+    settings: {
+        theme: "classic",
+        wallColor: "#ffffff",
+        paintings: {
+            front: "/textures/front.avif",
+            leftFront: "/textures/frontL.avif",
+            rightFront: "/textures/frontR.avif",
+            leftBack: "/textures/backL.avif",
+            rightBack: "/textures/backR.avif",
+        },
+    },
     isThirdperson: false,
     isEditingPictureMode: false,
     isEditingModelMode: false,
