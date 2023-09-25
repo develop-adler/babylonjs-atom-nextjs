@@ -9,12 +9,17 @@ import {
 } from "@babylonjs/core";
 import Atom from "./Atom";
 
-class ClassicRoom extends Atom {
+class ModernRoom extends Atom {
     private _root: AbstractMesh = null!;
     private _meshes: AbstractMesh[] = [];
     private _shadowGenerators: ShadowGenerator[];
 
-    constructor(scene: Scene, wallColor?: string, reflectionList?: Mesh[], shadowGenerators?: ShadowGenerator[]) {
+    constructor(
+        scene: Scene,
+        wallColor?: string,
+        reflectionList?: Mesh[],
+        shadowGenerators?: ShadowGenerator[]
+    ) {
         super(
             scene,
             {
@@ -22,7 +27,7 @@ class ClassicRoom extends Atom {
                 height: 2.5,
                 depth: 2.5,
             },
-            "classic",
+            "modern",
             reflectionList
         );
         this._shadowGenerators = shadowGenerators ?? [];
@@ -30,7 +35,7 @@ class ClassicRoom extends Atom {
         SceneLoader.ImportMesh(
             "",
             "/models/atoms/",
-            "classic.glb",
+            "modern.glb",
             scene,
             (meshes) => {
                 this._root = meshes[0];
@@ -55,7 +60,7 @@ class ClassicRoom extends Atom {
                         case "SideWallBottomMolding":
                         case "TopGrill":
                             if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach(generator => {
+                                this._shadowGenerators?.forEach((generator) => {
                                     generator.addShadowCaster(mesh);
                                 });
                             }
@@ -63,14 +68,17 @@ class ClassicRoom extends Atom {
                         case "SideWalls":
                         case "FrontWall":
                         case "BackWall":
-                            const wallMaterial = new StandardMaterial("SideWallsMaterial", scene);
+                            const wallMaterial = new StandardMaterial(
+                                "SideWallsMaterial",
+                                scene
+                            );
                             wallMaterial.diffuseColor = Color3.FromHexString(
                                 wallColor ?? "#ffffff"
                             );
                             mesh.material = wallMaterial;
 
                             if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach(generator => {
+                                this._shadowGenerators?.forEach((generator) => {
                                     generator.addShadowCaster(mesh);
                                 });
                             }
@@ -83,7 +91,6 @@ class ClassicRoom extends Atom {
                     mesh.material?.freeze();
                     mesh.doNotSyncBoundingInfo = true;
                 });
-
             }
         );
     }
@@ -103,4 +110,4 @@ class ClassicRoom extends Atom {
     }
 }
 
-export default ClassicRoom;
+export default ModernRoom;

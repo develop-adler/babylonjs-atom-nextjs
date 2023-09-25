@@ -26,6 +26,7 @@ abstract class Atom {
     private _reflectionList: Mesh[];
     private _pictures: PictureInterface;
     private _models: { [key: string]: AbstractMesh } = {};
+    private _type: AtomType;
 
     private _groundMesh: Mesh;
     private _frontWallMesh: Mesh;
@@ -38,9 +39,10 @@ abstract class Atom {
     private _wallLAggregate: PhysicsAggregate;
     private _wallRAggregate: PhysicsAggregate;
 
-    constructor(scene: Scene, dimensions: AtomDimensions, reflections?: Mesh[]) {
+    constructor(scene: Scene, dimensions: AtomDimensions, type: AtomType, reflections?: Mesh[]) {
         this._scene = scene;
         this._dimensions = dimensions;
+        this._type = type;
         this._reflectionList = reflections ?? [];
         this._pictures = {
             front: null,
@@ -225,7 +227,7 @@ abstract class Atom {
 
     public addPictureToAtom(src: string, side: PictureSide): void {
         if (side === null) throw new Error("Side cannot be null");
-        this._pictures[side] = new Picture(src, this._scene, this, side);
+        this._pictures[side] = new Picture(src, this._scene, this, side, this._type);
     }
     public updatePictureInAtom(src: string, side: PictureSide): void {
         if (side === null) throw new Error("Side cannot be null");

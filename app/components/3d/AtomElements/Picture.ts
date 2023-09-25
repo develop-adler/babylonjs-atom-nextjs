@@ -25,14 +25,16 @@ class Picture {
     private _pictureFrameMaterial!: StandardMaterial;
     private _pictureMaterial!: StandardMaterial;
     private _side: PictureSide;
+    private _atomType: AtomType;
 
     private static readonly PICTURE_FRAME_COLOR = new Color3(0.25, 0.25, 0.25);
 
-    constructor(src: string, scene: Scene, atom: Atom, side?: PictureSide) {
+    constructor(src: string, scene: Scene, atom: Atom, side?: PictureSide, atomType?: AtomType) {
         this._src = src;
         this._scene = scene;
         this._atom = atom;
         this._side = side ?? "front";
+        this._atomType = atomType ?? "classic";
 
         this.createPicture();
     }
@@ -73,7 +75,7 @@ class Picture {
             this._scene,
         );
         this._pictureFrameMaterial.diffuseColor = Picture.PICTURE_FRAME_COLOR;
-        
+
         // optimize material by freezing shader
         this._pictureFrameMaterial.freeze();
 
@@ -149,43 +151,62 @@ class Picture {
                 pictureFrameMeshHeight,
                 this._side === "front" ? 0.04 : pictureFrameMeshWidth,
             );
+            if (this._atomType === "modern") {
+                this._pictureFrameMesh.isVisible = false;
+            } else {
+                this._pictureFrameMesh.receiveShadows = true;
+            }
+
             this._pictureMesh = createPictureMesh(
                 pictureFrameMeshWidth,
                 pictureFrameMeshHeight,
             );
-
-            this._pictureFrameMesh.receiveShadows = true;
             this._pictureMesh.receiveShadows = true;
 
             switch (this._side) {
                 case "front":
-                    // fix picture position and rotation
-                    this._pictureMesh.position.z = 0.022;
                     this._pictureMesh.rotation.y = Math.PI;
-
+                    if (this._atomType === "modern") {
+                        this._pictureMesh.position.z = 0.07;
+                    } else {
+                        this._pictureMesh.position.z = 0.022;
+                    }
                     // attach to picture frame
                     this._pictureMesh.parent = this._pictureFrameMesh;
 
-                    // position picture frame
-                    if (imgHeight > imgWidth) {
+                    if (this._atomType === "modern") {
+                        // position picture frame
                         this._pictureFrameMesh.position = new Vector3(
                             0,
-                            this._atom.dimensions.height * 1.5,
+                            this._atom.dimensions.height * 1.3,
                             -this._atom.dimensions.depth * 2,
                         );
                     } else {
                         // position picture frame
-                        this._pictureFrameMesh.position = new Vector3(
-                            0,
-                            this._atom.dimensions.height * (1.5 / aspectRatio),
-                            -this._atom.dimensions.depth * 2,
-                        );
+                        if (imgHeight > imgWidth) {
+                            this._pictureFrameMesh.position = new Vector3(
+                                0,
+                                this._atom.dimensions.height * 1.5,
+                                -this._atom.dimensions.depth * 2,
+                            );
+                        } else {
+                            // position picture frame
+                            this._pictureFrameMesh.position = new Vector3(
+                                0,
+                                this._atom.dimensions.height * (1.5 / aspectRatio),
+                                -this._atom.dimensions.depth * 2,
+                            );
+                        }
                     }
                     break;
                 case "leftFront":
-                    // fix picture position and rotation
-                    this._pictureMesh.position.x = -0.022;
                     this._pictureMesh.rotation.y = Math.PI * 0.5;
+
+                    if (this._atomType === "modern") {
+                        this._pictureMesh.position.x = -0.07;
+                    } else {
+                        this._pictureMesh.position.x = -0.022;
+                    }
 
                     // attach to picture frame
                     this._pictureMesh.parent = this._pictureFrameMesh;
@@ -194,13 +215,17 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        -this._atom.dimensions.depth * 1.15,
+                        -this._atom.dimensions.depth * (this._atomType === "modern" ? 0.9 : 1.15),
                     );
                     break;
                 case "rightFront":
-                    // fix picture position and rotation
-                    this._pictureMesh.position.x = 0.022;
                     this._pictureMesh.rotation.y = -Math.PI * 0.5;
+
+                    if (this._atomType === "modern") {
+                        this._pictureMesh.position.x = 0.07;
+                    } else {
+                        this._pictureMesh.position.x = 0.022;
+                    }
 
                     // attach to picture frame
                     this._pictureMesh.parent = this._pictureFrameMesh;
@@ -209,13 +234,17 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         -this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        -this._atom.dimensions.depth * 1.15,
+                        -this._atom.dimensions.depth * (this._atomType === "modern" ? 0.9 : 1.15),
                     );
                     break;
                 case "leftBack":
-                    // fix picture position and rotation
-                    this._pictureMesh.position.x = -0.022;
                     this._pictureMesh.rotation.y = Math.PI * 0.5;
+
+                    if (this._atomType === "modern") {
+                        this._pictureMesh.position.x = -0.07;
+                    } else {
+                        this._pictureMesh.position.x = -0.022;
+                    }
 
                     // attach to picture frame
                     this._pictureMesh.parent = this._pictureFrameMesh;
@@ -224,13 +253,17 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        this._atom.dimensions.depth * 1.15,
+                        this._atom.dimensions.depth * (this._atomType === "modern" ? 0.93 : 1.15),
                     );
                     break;
                 case "rightBack":
-                    // fix picture position and rotation
-                    this._pictureMesh.position.x = 0.022;
                     this._pictureMesh.rotation.y = -Math.PI * 0.5;
+
+                    if (this._atomType === "modern") {
+                        this._pictureMesh.position.x = 0.07;
+                    } else {
+                        this._pictureMesh.position.x = 0.022;
+                    }
 
                     // attach to picture frame
                     this._pictureMesh.parent = this._pictureFrameMesh;
@@ -239,7 +272,7 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         -this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        this._atom.dimensions.depth * 1.15,
+                        this._atom.dimensions.depth * (this._atomType === "modern" ? 0.93 : 1.15),
                     );
                     break;
             }
@@ -248,7 +281,7 @@ class Picture {
             // static mesh, no need to evaluate every frame
             this._pictureFrameMesh.freezeWorldMatrix();
             this._pictureMesh.freezeWorldMatrix();
-            
+
             // don't update bounding info
             this._pictureFrameMesh.doNotSyncBoundingInfo = true;
             this._pictureMesh.doNotSyncBoundingInfo = true;

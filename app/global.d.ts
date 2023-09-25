@@ -1,12 +1,15 @@
 export { };
 
 declare global {
+    type AtomType = "classic" | "modern";
     type PictureSide =
         | "front"
         | "leftFront"
         | "rightFront"
         | "leftBack"
         | "rightBack";
+    type Gender = "male" | "female";
+    type BodyParts = "gender" | "hair" | "top" | "bottom" | "shoes";
 
     interface PictureInterface {
         front: Picture | null;
@@ -15,8 +18,6 @@ declare global {
         leftBack: Picture | null;
         rightBack: Picture | null;
     }
-
-    type Gender = "male" | "female";
 
     interface GenderParts {
         eyeL: Array<string>;
@@ -33,8 +34,6 @@ declare global {
         children: React.ReactNode;
         [x: string]: any;
     }
-
-    type BodyParts = "gender" | "hair" | "top" | "bottom" | "shoes";
 
     interface AdlerPostProps {
         author: string;

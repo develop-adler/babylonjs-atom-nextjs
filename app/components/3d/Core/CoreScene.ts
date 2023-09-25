@@ -11,6 +11,7 @@ import Avatar from "../Avatar/Avatar";
 import AvatarController from "../Avatar/AvatarController";
 import Atom from "../Atoms/Atom";
 import ClassicRoom from "../Atoms/ClassicRoom";
+import ModernRoom from "../Atoms/ModernRoom";
 // import Furniture from "../AtomElements/Furniture";
 import LoadingUI from "../OverlayElements/LoadingUI";
 import JoystickInstance from "../OverlayElements/Joystick/JoystickInstance";
@@ -84,7 +85,7 @@ export default class MainScene {
             this.createLight();
             this.initInputControls();
 
-            this._atom = this.createAtom("classic");
+            this._atom = this.createAtom("modern");
 
             this._avatar = new Avatar(
                 this._scene,
@@ -541,6 +542,13 @@ export default class MainScene {
         switch (type) {
             case "classic":
                 return new ClassicRoom(
+                    this._scene,
+                    "#ffffff",
+                    this._atom?.reflectionList,
+                    this._shadowGenerators
+                );
+            case "modern":
+                return new ModernRoom(
                     this._scene,
                     "#ffffff",
                     this._atom?.reflectionList,
