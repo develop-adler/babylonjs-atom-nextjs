@@ -2,6 +2,8 @@ import {
     AbstractMesh,
     Color3,
     Mesh,
+    PhysicsAggregate,
+    PhysicsShapeType,
     Scene,
     SceneLoader,
     ShadowGenerator,
@@ -13,6 +15,7 @@ class ClassicRoom extends Atom {
     private _root: AbstractMesh = null!;
     private _meshes: AbstractMesh[] = [];
     private _shadowGenerators: ShadowGenerator[];
+    private _physicsAggregates: PhysicsAggregate[] = [];
 
     constructor(
         scene: Scene,
@@ -85,9 +88,23 @@ class ClassicRoom extends Atom {
                         case "TopGlass":
                             mesh.visibility = 0.2;
                             break;
+                        case "FrontPillars.L":
+                        case "FrontPillars.R":
+                        case "FrontSidePillars.L":
+                        case "FrontSidePillars.R":
+                            this._physicsAggregates.push(
+                                new PhysicsAggregate(
+                                    mesh,
+                                    PhysicsShapeType.CONVEX_HULL,
+                                    { mass: 0, restitution: 0.01 },
+                                    scene
+                                )
+                            );
+                            break;
                     }
 
                     mesh.material?.freeze();
+                    mesh.freezeWorldMatrix();
                     mesh.doNotSyncBoundingInfo = true;
                 });
             }
@@ -103,7 +120,10 @@ class ClassicRoom extends Atom {
     public dispose(): void {
         this._root.dispose();
         this._meshes.forEach((mesh) => {
-            mesh.dispose();
+            mesh.dispose(false, true);
+        });
+        this._physicsAggregates.forEach((agg) => {
+            agg.dispose();
         });
         this.dispose();
     }

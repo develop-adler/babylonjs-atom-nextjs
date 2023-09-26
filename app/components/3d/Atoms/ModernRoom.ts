@@ -2,6 +2,8 @@ import {
     AbstractMesh,
     Color3,
     Mesh,
+    PhysicsAggregate,
+    PhysicsShapeType,
     Scene,
     SceneLoader,
     ShadowGenerator,
@@ -13,13 +15,14 @@ class ModernRoom extends Atom {
     private _root: AbstractMesh = null!;
     private _meshes: AbstractMesh[] = [];
     private _shadowGenerators: ShadowGenerator[];
+    private _physicsAggregates: PhysicsAggregate[] = [];
 
     constructor(
         scene: Scene,
         reflectionList?: Mesh[],
         shadowGenerators?: ShadowGenerator[],
         wallColor?: string,
-        paintingURLs?: PaintingURLs,
+        paintingURLs?: PaintingURLs
     ) {
         super(
             scene,
@@ -59,8 +62,8 @@ class ModernRoom extends Atom {
                     //         generator.addShadowCaster(mesh);
                     //     });
                     // }
-                    switch (mesh.name) {
-                        case "BackWall":
+                    switch (true) {
+                        case mesh.name === "BackWall":
                             const wallMaterial = new StandardMaterial(
                                 "SideWallsMaterial",
                                 scene
@@ -70,9 +73,20 @@ class ModernRoom extends Atom {
                             );
                             mesh.material = wallMaterial;
                             break;
+                        case mesh.name.includes("Pannel"):
+                            this._physicsAggregates.push(
+                                new PhysicsAggregate(
+                                    mesh,
+                                    PhysicsShapeType.CONVEX_HULL,
+                                    { mass: 0, restitution: 0.01 },
+                                    scene
+                                )
+                            );
+                            break;
                     }
 
                     mesh.material?.freeze();
+                    mesh.freezeWorldMatrix();
                     mesh.doNotSyncBoundingInfo = true;
                 });
             }
@@ -88,7 +102,10 @@ class ModernRoom extends Atom {
     public dispose(): void {
         this._root.dispose();
         this._meshes.forEach((mesh) => {
-            mesh.dispose();
+            mesh.dispose(false, true);
+        });
+        this._physicsAggregates.forEach((agg) => {
+            agg.dispose();
         });
         this.dispose();
     }
