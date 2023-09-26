@@ -540,8 +540,8 @@ export default class MainScene {
 
         this._shadowGenerators.push(shadowGenerator);
 
-        // low quality for better performance
-        // shadowGenerator.filteringQuality = ShadowGenerator.QUALITY_LOW;
+        // set shadow quality
+        shadowGenerator.filteringQuality = BABYLON.ShadowGenerator.QUALITY_MEDIUM;
     }
 
     // private createLightGizmo(customLight: BABYLON.Light): void {
