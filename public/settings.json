@@ -1,9 +1,11 @@
 {
-    "theme": "modern",
+    "theme": "default",
     "wallColor": "#bbff66",
     "paintings": {
         "front": "https://cdn.shopify.com/s/files/1/2621/9594/files/cat-7201800_640_480x480.jpg?v=1677254671",
         "leftFront": "https://cdn.shopify.com/s/files/1/0481/4602/2549/files/corgi_blog.png?v=1664821708",
-        "rightFront": "https://cdn.shopify.com/s/files/1/0530/3762/9610/files/Sleeping_guinea_pig_1024x1024.jpg?v=1684314401"
+        "rightFront": "https://cdn.shopify.com/s/files/1/0530/3762/9610/files/Sleeping_guinea_pig_1024x1024.jpg?v=1684314401",
+        "leftBack": "https://cdn.shopify.com/s/files/1/0481/4602/2549/files/corgi_blog.png?v=1664821708",
+        "rightBack": "https://cdn.shopify.com/s/files/1/0530/3762/9610/files/Sleeping_guinea_pig_1024x1024.jpg?v=1684314401"
     }
 }

@@ -23,6 +23,7 @@ import {
     isMobile,
     showOutline,
 } from "@/app/utils/functions";
+import DefaultRoom from "../Atoms/DefaultRoom";
 
 export default class MainScene {
     private static instance: MainScene;
@@ -558,6 +559,14 @@ export default class MainScene {
         paintings: PaintingURLs
     ): Atom {
         switch (type) {
+            default:
+                return new DefaultRoom(
+                    this._scene,
+                    this._atom?.reflectionList,
+                    this._shadowGenerators,
+                    wallColor,
+                    paintings
+                );
             case "classic":
                 return new ClassicRoom(
                     this._scene,
@@ -575,16 +584,6 @@ export default class MainScene {
                     paintings
                 );
         }
-
-        console.error("Invalid atom type, using classic room instead");
-
-        return new ClassicRoom(
-            this._scene,
-            this._atom?.reflectionList,
-            this._shadowGenerators,
-            wallColor,
-            paintings
-        );
     }
 
     public dispose(): void {

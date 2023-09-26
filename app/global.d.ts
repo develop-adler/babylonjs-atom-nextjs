@@ -1,7 +1,7 @@
 export { };
 
 declare global {
-    type AtomType = "classic" | "modern";
+    type AtomType = "classic" | "modern" | "default";
     type PictureSide =
         | "front"
         | "leftFront"
