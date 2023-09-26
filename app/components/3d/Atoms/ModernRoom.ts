@@ -54,14 +54,6 @@ class ModernRoom extends Atom {
                 this._meshes.forEach((mesh) => {
                     mesh.receiveShadows = true;
 
-                    // optimize performance
-                    mesh.freezeWorldMatrix();
-
-                    // if (this._shadowGenerators.length) {
-                    //     this._shadowGenerators?.forEach((generator) => {
-                    //         generator.addShadowCaster(mesh);
-                    //     });
-                    // }
                     switch (true) {
                         case mesh.name === "BackWall":
                             const wallMaterial = new StandardMaterial(
@@ -84,9 +76,15 @@ class ModernRoom extends Atom {
                             );
                             break;
                     }
+                    // if (this._shadowGenerators.length) {
+                    //     this._shadowGenerators?.forEach((generator) => {
+                    //         generator.addShadowCaster(mesh);
+                    //     });
+                    // }
 
-                    mesh.material?.freeze();
+                    // optimize performance
                     mesh.freezeWorldMatrix();
+                    mesh.material?.freeze();
                     mesh.doNotSyncBoundingInfo = true;
                 });
             }

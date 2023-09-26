@@ -54,9 +54,6 @@ class DefaultRoom extends Atom {
                 this._meshes.forEach((mesh) => {
                     mesh.receiveShadows = true;
 
-                    // optimize performance
-                    mesh.freezeWorldMatrix();
-
                     switch (true) {
                         case mesh.name.includes("Wall"):
                             const wallMaterial = new StandardMaterial(
@@ -68,19 +65,20 @@ class DefaultRoom extends Atom {
                             );
                             mesh.material = wallMaterial;
 
-                            if (this._shadowGenerators.length) {
-                                this._shadowGenerators?.forEach((generator) => {
-                                    generator.addShadowCaster(mesh);
-                                });
-                            }
                             break;
                         case mesh.name === "RoofGlass":
                             mesh.visibility = 0.2;
                             break;
                     }
+                    if (this._shadowGenerators.length) {
+                        this._shadowGenerators?.forEach((generator) => {
+                            generator.addShadowCaster(mesh);
+                        });
+                    }
 
-                    mesh.material?.freeze();
+                    // optimize performance
                     mesh.freezeWorldMatrix();
+                    mesh.material?.freeze();
                     mesh.doNotSyncBoundingInfo = true;
                 });
             }

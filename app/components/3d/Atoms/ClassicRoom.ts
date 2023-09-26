@@ -54,9 +54,6 @@ class ClassicRoom extends Atom {
                 this._meshes.forEach((mesh) => {
                     mesh.receiveShadows = true;
 
-                    // optimize performance
-                    mesh.freezeWorldMatrix();
-
                     switch (mesh.name) {
                         case "SideWallTopMolding":
                         case "SideWallBottomMolding":
@@ -103,6 +100,7 @@ class ClassicRoom extends Atom {
                             break;
                     }
 
+                    // optimize performance
                     mesh.material?.freeze();
                     mesh.freezeWorldMatrix();
                     mesh.doNotSyncBoundingInfo = true;

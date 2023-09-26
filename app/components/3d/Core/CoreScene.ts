@@ -1,7 +1,9 @@
 "use client";
 
 import "@babylonjs/core/Debug/debugLayer";
-// import "@babylonjs/inspector";
+if (typeof document !== "undefined") {
+    import("@babylonjs/inspector");
+}
 import "@babylonjs/loaders";
 import * as BABYLON from "@babylonjs/core";
 import HavokPhysics, { HavokPhysicsWithBindings } from "@babylonjs/havok";
