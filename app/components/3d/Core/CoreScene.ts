@@ -13,7 +13,7 @@ import Atom from "../Atoms/Atom";
 import ClassicRoom from "../Atoms/ClassicRoom";
 import ModernRoom from "../Atoms/ModernRoom";
 // import Furniture from "../AtomElements/Furniture";
-import LoadingUI from "../OverlayElements/LoadingUI";
+// import LoadingUI from "../OverlayElements/LoadingUI";
 import JoystickInstance from "../OverlayElements/Joystick/JoystickInstance";
 
 import { SCENE_SETTINGS } from "@/app/utils/global";
@@ -528,7 +528,7 @@ export default class MainScene {
         dirLight.shadowMinZ = 2;
         dirLight.shadowMaxZ = 30;
 
-        this.createLightGizmo(dirLight);
+        // this.createLightGizmo(dirLight);
 
         // Shadows
         const shadowGenerator = new BABYLON.ShadowGenerator(2048, dirLight);
@@ -544,13 +544,13 @@ export default class MainScene {
         // shadowGenerator.filteringQuality = ShadowGenerator.QUALITY_LOW;
     }
 
-    private createLightGizmo(customLight: BABYLON.Light): void {
-        const lightGizmo = new BABYLON.LightGizmo();
-        lightGizmo.scaleRatio = 2;
-        lightGizmo.light = customLight;
+    // private createLightGizmo(customLight: BABYLON.Light): void {
+    //     const lightGizmo = new BABYLON.LightGizmo();
+    //     lightGizmo.scaleRatio = 2;
+    //     lightGizmo.light = customLight;
 
-        this._gizmoManager.attachToMesh(lightGizmo.attachedMesh);
-    }
+    //     this._gizmoManager.attachToMesh(lightGizmo.attachedMesh);
+    // }
 
     private createAtom(
         type: string = "classic",

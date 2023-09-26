@@ -20,7 +20,7 @@ const CanvasChildren = styled.div`
   z-index: 2;
 `;
 
-export type BabylonjsProps = {
+type BabylonjsProps = {
   antialias?: boolean;
   engineOptions?: EngineOptions;
   adaptToDeviceRatio?: boolean;
