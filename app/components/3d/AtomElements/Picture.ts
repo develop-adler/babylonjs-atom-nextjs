@@ -29,7 +29,13 @@ class Picture {
 
     private static readonly PICTURE_FRAME_COLOR = new Color3(0.25, 0.25, 0.25);
 
-    constructor(src: string, scene: Scene, atom: Atom, side?: PictureSide, atomType?: AtomType) {
+    constructor(
+        src: string,
+        scene: Scene,
+        atom: Atom,
+        side?: PictureSide,
+        atomType?: AtomType
+    ) {
         this._src = src;
         this._scene = scene;
         this._atom = atom;
@@ -72,7 +78,7 @@ class Picture {
         // create materials
         this._pictureFrameMaterial = new StandardMaterial(
             `pictureFrame_${this._src}_material`,
-            this._scene,
+            this._scene
         );
         this._pictureFrameMaterial.diffuseColor = Picture.PICTURE_FRAME_COLOR;
 
@@ -81,7 +87,7 @@ class Picture {
 
         this._pictureMaterial = new StandardMaterial(
             `picture_${this._src}_material`,
-            this._scene,
+            this._scene
         );
         this._texture = new Texture(this._src, this._scene);
         this._pictureMaterial.diffuseTexture = this._texture;
@@ -94,7 +100,7 @@ class Picture {
         const createPictureFrameMesh = (
             width: number,
             height: number,
-            depth: number,
+            depth: number
         ) => {
             const pictureFrameMesh = MeshBuilder.CreateBox(
                 "pictureFrame_" + this._src + "_mesh",
@@ -103,7 +109,7 @@ class Picture {
                     height: height,
                     depth: depth,
                 },
-                this._scene,
+                this._scene
             );
             pictureFrameMesh.material = this._pictureFrameMaterial;
             pictureFrameMesh.receiveShadows = true;
@@ -117,7 +123,7 @@ class Picture {
                     width: width - 0.1,
                     height: height - 0.1,
                 },
-                this._scene,
+                this._scene
             );
             pictureMesh.material = this._pictureMaterial;
             pictureMesh.receiveShadows = true;
@@ -149,7 +155,7 @@ class Picture {
             this._pictureFrameMesh = createPictureFrameMesh(
                 this._side === "front" ? pictureFrameMeshWidth : 0.04,
                 pictureFrameMeshHeight,
-                this._side === "front" ? 0.04 : pictureFrameMeshWidth,
+                this._side === "front" ? 0.04 : pictureFrameMeshWidth
             );
             if (this._atomType === "modern") {
                 this._pictureFrameMesh.isVisible = false;
@@ -159,7 +165,7 @@ class Picture {
 
             this._pictureMesh = createPictureMesh(
                 pictureFrameMeshWidth,
-                pictureFrameMeshHeight,
+                pictureFrameMeshHeight
             );
             this._pictureMesh.receiveShadows = true;
 
@@ -179,7 +185,7 @@ class Picture {
                         this._pictureFrameMesh.position = new Vector3(
                             0,
                             this._atom.dimensions.height * 1.3,
-                            -this._atom.dimensions.depth * 2,
+                            -this._atom.dimensions.depth * 2
                         );
                     } else {
                         // position picture frame
@@ -187,14 +193,14 @@ class Picture {
                             this._pictureFrameMesh.position = new Vector3(
                                 0,
                                 this._atom.dimensions.height * 1.5,
-                                -this._atom.dimensions.depth * 2,
+                                -this._atom.dimensions.depth * 2
                             );
                         } else {
                             // position picture frame
                             this._pictureFrameMesh.position = new Vector3(
                                 0,
                                 this._atom.dimensions.height * (1.5 / aspectRatio),
-                                -this._atom.dimensions.depth * 2,
+                                -this._atom.dimensions.depth * 2
                             );
                         }
                     }
@@ -215,7 +221,11 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        -this._atom.dimensions.depth * (this._atomType === "modern" ? 0.9 : 1.15),
+                        -this._atom.dimensions.depth * (this._atomType === "modern"
+                            ? 0.9
+                            : this._atomType === "classic"
+                                ? 1.15
+                                : 0.8)
                     );
                     break;
                 case "rightFront":
@@ -234,7 +244,12 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         -this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        -this._atom.dimensions.depth * (this._atomType === "modern" ? 0.9 : 1.15),
+                        -this._atom.dimensions.depth *
+                        (this._atomType === "modern"
+                            ? 0.9
+                            : this._atomType === "classic"
+                                ? 1.15
+                                : 0.8)
                     );
                     break;
                 case "leftBack":
@@ -253,7 +268,12 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        this._atom.dimensions.depth * (this._atomType === "modern" ? 0.93 : 1.15),
+                        this._atom.dimensions.depth *
+                        (this._atomType === "modern"
+                            ? 0.93
+                            : this._atomType === "classic"
+                                ? 1.15
+                                : 0.8)
                     );
                     break;
                 case "rightBack":
@@ -272,7 +292,12 @@ class Picture {
                     this._pictureFrameMesh.position = new Vector3(
                         -this._atom.dimensions.width * 2,
                         this._atom.dimensions.height,
-                        this._atom.dimensions.depth * (this._atomType === "modern" ? 0.93 : 1.15),
+                        this._atom.dimensions.depth *
+                        (this._atomType === "modern"
+                            ? 0.93
+                            : this._atomType === "classic"
+                                ? 1.15
+                                : 0.8)
                     );
                     break;
             }
@@ -317,7 +342,7 @@ class Picture {
                     this._scene.onAfterRenderObservable.addOnce(() => {
                         this._pictureFrameMaterial.freeze();
                     });
-                }),
+                })
             );
             actionManager.registerAction(
                 new ExecuteCodeAction(ActionManager.OnPointerOutTrigger, () => {
@@ -335,7 +360,7 @@ class Picture {
                     this._scene.onAfterRenderObservable.addOnce(() => {
                         this._pictureFrameMaterial.freeze();
                     });
-                }),
+                })
             );
             this._pictureMesh.actionManager = actionManager;
 
