@@ -123,7 +123,7 @@ class ClassicRoom extends Atom {
         this._physicsAggregates.forEach((agg) => {
             agg.dispose();
         });
-        this.dispose();
+        super.dispose();
     }
 }
 
